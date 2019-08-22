@@ -3,29 +3,32 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
+	"os"
 )
 
-const (
-	TMP_BASE_PATH string = "F:\\my\\learn_go\\src\\server\\"
-)
+type BasePath struct {
+	basePath    string
+	baseTmpPath string
+}
+
+func (bp BasePath) Path(filename string) string {
+	return bp.basePath + filename
+}
+
+func (bp BasePath) TmpPath(filename string) string {
+	return bp.baseTmpPath + filename
+}
+
+var TMPLATE_PATH BasePath = BasePath{
+	basePath:    "F:\\my\\learn_go\\src\\server\\",
+	baseTmpPath: "F:\\my\\learn_go\\tmp\\",
+}
 
 var handlerFunc = func(w http.ResponseWriter, r *http.Request) {
-	/*
-	r.ParseForm()                       //解析参数，默认是不会解析的
-	fmt.Println("query form: ", r.Form) //这些信息是输出到服务器端的打印信息
-	fmt.Println("requestUri: ", r.RequestURI)
-	fmt.Println("path: ", r.URL.Path)
-	fmt.Println("scheme: ", r.URL.Scheme)
-	for k, v := range r.Form {
-		fmt.Println("key:", k)
-		fmt.Println("val:", strings.Join(v, ""))
-	}
-	fmt.Fprintf(w, "Hello astaxie!") //这个写入到w的是输出到客户端的
-	 */
-
-	t, err := template.ParseFiles(TMP_BASE_PATH + "index.gtpl")
+	t, err := template.ParseFiles(TMPLATE_PATH.Path("index.gtpl"))
 	if err != nil {
 		log.Println(err)
 		http.NotFoundHandler().ServeHTTP(w, r)
@@ -37,7 +40,7 @@ var handlerFunc = func(w http.ResponseWriter, r *http.Request) {
 func loginFunC(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("method:", r.Method) //获取请求的方法
 	if r.Method == "GET" {
-		t, err := template.ParseFiles(TMP_BASE_PATH + "login.gtpl")
+		t, err := template.ParseFiles(TMPLATE_PATH.Path("login.gtpl"))
 		if err != nil {
 			log.Println(err)
 			http.NotFoundHandler().ServeHTTP(w, r)
@@ -53,11 +56,30 @@ func loginFunC(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func uploadFunc (w http.ResponseWriter, r *http.Request){
+func uploadFunc(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-
-	}else{
-
+		t, err := template.ParseFiles(TMPLATE_PATH.Path("upload.gtpl"))
+		if err != nil {
+			log.Println(err)
+			http.NotFoundHandler().ServeHTTP(w, r)
+			return
+		}
+		t.Execute(w, nil)
+	} else {
+		r.ParseMultipartForm(10240)
+		appendName := r.FormValue("appendName")
+		fUpload, h, err := r.FormFile("uploadfile")
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		defer fUpload.Close()
+		fileLocal, err := os.OpenFile(TMPLATE_PATH.TmpPath(h.Filename+"_"+appendName), os.O_CREATE|os.O_WRONLY, 0666)
+		if err != nil {
+			return
+		}
+		defer fileLocal.Close()
+		io.Copy(fileLocal, fUpload)
 	}
 }
 
