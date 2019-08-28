@@ -7,7 +7,6 @@ import _ "github.com/go-sql-driver/mysql"
 import "domain"
 
 var db *sql.DB
-var count int
 
 const (
 	username string = "root"
@@ -17,7 +16,6 @@ const (
 )
 
 func init() {
-	count = 10
 	dburl := username + ":" + password + "@tcp(" + host + ")/" + dbname + "?charset=utf8"
 	var err error
 	//db, err := sql.Open("mysql", dburl) //不要这样，这样的话，db是新的局部变量了，不是全局变量
