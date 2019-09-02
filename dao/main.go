@@ -1,13 +1,18 @@
 package main
 
+import (
+	"fmt"
+	"log"
+)
+
 func main() {
-	/*
-		user, err := QueryById(1, )
+
+		user, err := QueryById(2, )
 		if err != nil {
 			log.Fatalln(err)
 		}
 		fmt.Println(user.Id, user.Name, user.Password)
-	*/
+
 
 	/*
 		user := domain.User{

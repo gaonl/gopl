@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"time"
+	"unsafe"
 )
 
 type Car struct {
@@ -26,13 +27,13 @@ func makedemo() {
 
 	//反射创建Array
 	sliceType := reflect.SliceOf(intTyp)
-	sliceV := reflect.MakeSlice(sliceType,10,10)
+	sliceV := reflect.MakeSlice(sliceType, 10, 10)
 	if sliceValue, ok := sliceV.Interface().([]int); ok {
-		for i:=0;i<20;i++ {
+		for i := 0; i < 20; i++ {
 			sliceValue = append(sliceValue, i)
 		}
 
-		for i,item := range sliceValue {
+		for i, item := range sliceValue {
 			fmt.Println(i, item)
 		}
 		fmt.Println("")
@@ -46,7 +47,7 @@ func makedemo() {
 	fmt.Println(reflect.StructOf([]reflect.StructField{
 		{Name: "IntA", Type: intTyp},
 		{Name: "StrB", Type: strTyp},
-	}).String())                                              // Output: struct { IntA int; StrB string }
+	}).String())                                                  // Output: struct { IntA int; StrB string }
 	var err error
 	errTyp := reflect.TypeOf(&err).Elem()
 	fmt.Println(reflect.FuncOf([]reflect.Type{intTyp}, nil, false).String())                            // Output: func(int)
@@ -98,8 +99,19 @@ func reflecttest() {
 	fmt.Println(reflect.ValueOf(t).Kind().String()) //Output: struct //标记4
 }
 
+type MyWriter interface {
+	Write() (int, error)
+}
+
 func main() {
-	makedemo()
+	//makedemo()
 	//reflecttest()
 	//reflectStruct()
+
+	slice := make([]int, 10, 100)
+	fmt.Println(slice)
+	sliceHeaderPtr := (*reflect.SliceHeader)(unsafe.Pointer(&slice))
+	sliceHeaderPtr.Len = 20
+	fmt.Println(slice)
+
 }
