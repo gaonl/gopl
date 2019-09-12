@@ -11,6 +11,7 @@ import (
 )
 
 func uploadFile(fileName, url string) error {
+	//http.DefaultTransport()
 	buf := &bytes.Buffer{}
 	multipartWriter := multipart.NewWriter(buf)
 

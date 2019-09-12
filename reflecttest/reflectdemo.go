@@ -99,19 +99,32 @@ func reflecttest() {
 	fmt.Println(reflect.ValueOf(t).Kind().String()) //Output: struct //标记4
 }
 
-type MyWriter interface {
-	Write() (int, error)
+func sliceHeaderDemo(){
+	slice := make([]int, 10, 100)
+	fmt.Println(slice)
+	sliceHeaderPtr := (*reflect.SliceHeader)(unsafe.Pointer(&slice))
+	sliceHeaderPtr.Len = 20
+	fmt.Println(slice)
 }
 
 func main() {
 	//makedemo()
 	//reflecttest()
 	//reflectStruct()
+	//sliceHeaderDemo()
 
-	slice := make([]int, 10, 100)
-	fmt.Println(slice)
-	sliceHeaderPtr := (*reflect.SliceHeader)(unsafe.Pointer(&slice))
-	sliceHeaderPtr.Len = 20
-	fmt.Println(slice)
+	/*
+	var i interface{} = "string value"
+	if v,ok := i.(string); ok{
+		fmt.Println(v, "is string")
+	}
+	i = 100
+	if v,ok := i.(int); ok{
+		fmt.Println(v, "is int")
+	}
+	 */
+	var i int = 10
+	var ptr = &i
+	fmt.Println(unsafe.Sizeof(ptr))
 
 }
