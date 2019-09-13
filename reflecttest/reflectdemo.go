@@ -1,9 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"reflect"
 	"time"
+	"unsafe"
 )
 
 type Car struct {
@@ -20,8 +22,7 @@ func reflectStruct() {
 		fmt.Println(field.Tag)
 	}
 
-
-	v:=reflect.ValueOf(c)
+	v := reflect.ValueOf(c)
 	value := v.FieldByName("Colors")
 	fmt.Println(value.IsValid())
 }
@@ -40,7 +41,7 @@ func reflecttest() {
 	println("5: ", reflect.ValueOf(s).Kind().String()) // Output: string
 
 	var iface interface{}
-	println("6.1: ", reflect.ValueOf(iface).IsValid()) //Output: false //标记1
+	println("6.1: ", reflect.ValueOf(iface).IsValid())     //Output: false //标记1
 	println("6: ", reflect.ValueOf(iface).Kind().String()) //Output: invalid //标记1
 	//println("7: ", reflect.TypeOf(iface).Kind().String())                 //panic.根本没有type //标记1
 	println("8: ", reflect.ValueOf(&iface).Elem().Kind().String())        //Output: interface // 标记2
@@ -57,6 +58,23 @@ func reflecttest() {
 }
 
 func main() {
-	reflecttest()
+	//reflecttest()
 	//reflectStruct()
+
+	/*
+		var p *int
+		fmt.Println(reflect.TypeOf(p))                   //*int
+		fmt.Println(reflect.ValueOf(p))                  //<nil>
+		fmt.Println(reflect.ValueOf(p).Elem())           //<invalid reflect.Value>
+		fmt.Println(reflect.ValueOf(p).Elem().IsValid()) //false
+	*/
+
+	slicestr := []byte{'a', 'b', 'c', 'd', 'e'}
+	str := (*string)(unsafe.Pointer(&slicestr))
+	fmt.Println(*str) //abcde
+	slicestr[2] = '*'
+	fmt.Println(*str) //ab*de
+
+	buf := bytes.Buffer{}
+	buf.Bytes()
 }
