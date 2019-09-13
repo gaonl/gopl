@@ -66,6 +66,7 @@ func uploadFunc(w http.ResponseWriter, r *http.Request) {
 		}
 		t.Execute(w, nil)
 	} else {
+		http.FileServer()
 		r.ParseMultipartForm(10240)
 		appendName := r.FormValue("appendName")
 		fUpload, h, err := r.FormFile("uploadfile")

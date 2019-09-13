@@ -1,10 +1,10 @@
-package main
+package dao
 
 import (
 	"database/sql"
+	"github.com/gaonl/gopl/domain"
+	_ "github.com/go-sql-driver/mysql"
 )
-import _ "github.com/go-sql-driver/mysql"
-import "domain"
 
 var db *sql.DB
 
