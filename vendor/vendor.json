@@ -7,10 +7,10 @@
 			"revision": ""
 		},
 		{
-			"checksumSHA1": "aNZPEOjiyAgS+Y0n19AF8vimMc4=",
+			"checksumSHA1": "tIZKq2qZ516wXKSDThfva+zQ6LE=",
 			"path": "github.com/go-sql-driver/mysql",
-			"revision": "877a9775f06853f611fb2d4e817d92479242d1cd",
-			"revisionTime": "2019-05-10T10:23:35Z"
+			"revision": "b2c03bcae3d4bf9658e63ad4b9b32581d810fb20",
+			"revisionTime": "2019-09-07T12:21:37Z"
 		},
 		{
 			"checksumSHA1": "W/pYxFe8/FHT10/wulwesJsOoUw=",

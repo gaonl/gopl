@@ -2,7 +2,7 @@ package dao
 
 import (
 	"database/sql"
-	"github.com/gaonl/gopl/domain"
+	"domain"
 	_ "github.com/go-sql-driver/mysql"
 )
 

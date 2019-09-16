@@ -1,8 +1,8 @@
 package dao
 
 import (
+	"domain"
 	"fmt"
-	"github.com/gaonl/gopl/domain"
 	"log"
 	"testing"
 	"time"

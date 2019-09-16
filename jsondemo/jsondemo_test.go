@@ -1,9 +1,9 @@
 package jsondemo
 
 import (
+	"domain"
 	"encoding/json"
 	"fmt"
-	"github.com/gaonl/gopl/domain"
 	"log"
 	"strings"
 	"testing"
