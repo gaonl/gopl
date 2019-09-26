@@ -2,6 +2,7 @@ package dao
 
 import (
 	"database/sql"
+
 	"github.com/gaonl/gopl/domain"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -26,6 +27,8 @@ func init() {
 	if err := db.Ping(); err != nil {
 		panic(err.Error())
 	}
+	db.SetMaxOpenConns(2000)
+	db.SetMaxIdleConns(1000)
 }
 
 func Add(user domain.User) (id int64, err error) {
