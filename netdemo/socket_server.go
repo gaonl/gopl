@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	l, err := net.Listen("tcp", ":8080", )
+	l, err := net.Listen("tcp", ":8080")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -23,7 +23,12 @@ func main() {
 }
 
 func handlerConn(conn net.Conn) {
-	defer conn.Close()
+	//如果一个goroutine引发的panic没有得到处理，则会使整个程序退出
+	defer func() {
+		conn.Close()
+		err := recover()
+		fmt.Println(err)
+	}()
 
 	var buf [1024]byte
 
@@ -32,6 +37,7 @@ func handlerConn(conn net.Conn) {
 		if err == nil || err == io.EOF {
 			s := string(buf[0:n])
 			if s == "q" {
+				panic("client press q!!")
 				break
 			}
 			fmt.Println(s)

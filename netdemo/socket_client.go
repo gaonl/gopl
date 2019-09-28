@@ -11,7 +11,7 @@ import (
 
 func main1() {
 	//conn,err := net.Dial("tcp","www.baidu.com:443")
-	conn,err := tls.Dial("tcp","www.baidu.com:443",nil)
+	conn, err := tls.Dial("tcp", "www.baidu.com:443", nil)
 	checkErr(err)
 	defer conn.Close()
 
@@ -38,19 +38,18 @@ Cookie: BIDUPSID=65A798B44CCE10A5BCD39F684F344275; PSTM=1554367203; BD_UPN=12314
 		if errRead != nil {
 			if errRead == io.EOF {
 				break
-			}else {
+			} else {
 				log.Fatalln(errRead)
 			}
 		}
 		fmt.Println(string(buf[0:n]))
 	}
 
-
 }
 
-func checkErr(err error){
+func checkErr(err error) {
 	bufio.NewReader(os.Stdin)
-	if err != nil{
+	if err != nil {
 		log.Fatalln(err)
 	}
 }

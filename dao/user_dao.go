@@ -26,6 +26,8 @@ func init() {
 	if err := db.Ping(); err != nil {
 		panic(err.Error())
 	}
+	db.SetMaxOpenConns(2000)
+	db.SetMaxIdleConns(1000)
 }
 
 func Add(user domain.User) (id int64, err error) {
